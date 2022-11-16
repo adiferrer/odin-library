@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
 
+:root {
+    --header-color: rgb(207, 185, 151);
+    --body-color: rgb(155, 161, 123);
+    --book-color: rgb(250, 214, 165);
+    --footer-color: rgb(97, 118, 75);
+}
+
 * {
     margin: 0px;
     padding: 0px;
@@ -7,22 +14,124 @@
 }
 
 body {
-    width: 100vw;
-    height: 100vh;
+    background-color: var(--body-color);
+}
+
+.library-book {
+    width: 150px;
+    height: max-content;
+    padding: 10px;
+    background-color: var(--book-color);
+
+    border: 5px solid var(--footer-color);
+    border-radius: 10px;
+}
+
+@media only screen and (min-width: 600px) {
+    #main-content {
+        padding: 10px;
+    }
+    
+    #library {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: max-content;
+        justify-items: center;
+        gap: 20px;
+    }
+
+    .library-book {
+        width: 90%;
+        height: auto;
+    }
 }
 
 #container {
-    padding: 10px;
-    
+    width: 100vw;
+    height: 100vh;
 
     display: flex;
     flex-direction: column;
+}
+
+#header,
+#footer {
+    width: 100%;
+    padding: 20px;
+}
+
+#header {
+    background-color: var(--header-color);
+}
+
+#main-content {
+    width: 100%;
+
+    display: inherit;
+    flex-direction: inherit;
+    flex: 1;
     justify-content: center;
     align-items: center;
 }
 
+button,
+#open-book-form:disabled,
+input:not([type='radio']) {
+    appearance: none;
+    padding: 5px;
+    border: none;
+}
+
+#open-book-form:disabled {
+    color: rgba(255, 255, 255, 0.638);
+    background-color: var(--footer-color);
+}
+
+#form-popup {
+    display: none;
+
+    position: fixed;
+    /* top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px; */  
+}
+
+#form-container {
+    padding: 20px;
+    background-color: var(--header-color);
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#main-content > h1 {
+    padding: 5px;
+    margin: 5px;
+}
+
 #library {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    justify-items: center;
+    flex: 1;
+}
+
+.library-book > div:first-child {
+    align-self: center;
+}
+
+.action-btns {
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+}
+
+.read-status,
+.remove-btn {
+    width: max-content;
+    height: max-content;
+}
+
+#footer {
+    text-align: center;
+    background-color: var(--footer-color);
 }
