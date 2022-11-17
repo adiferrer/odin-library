@@ -31,7 +31,7 @@ function Book(title, author, datePublished, isRead) {
 
     const date = new Date(datePublished).toDateString().split(' '); // converts date to words
     this.datePublished = `${date[1]} ${date[2]}, ${date[3]} `;
-    this.isRead = isRead;
+    this.isRead = (isRead === 'true');
 
     this.info = function() {
         return `${title} by ${author}, published ${datePublished}, ${isRead ? "read" : "not yet read"}`;
@@ -53,9 +53,22 @@ function addBookToLibrary() { // adds a new book
                             document.getElementById('author').value,
                             document.getElementById('datePublished').value,
                             document.querySelector('input[name="isRead"]:checked').value);
-
+    
     myLibrary.push(newBook);
     displayBook(newBook);
+}
+
+function clearForm() { // clears form
+    document.getElementById('title').value = '';
+    document.getElementById('author').value = '';
+    document.getElementById('datePublished').value = '';
+    document.querySelector('input[name=isRead]:checked').checked = false;
+}
+
+function isRead(isRead, btn) {
+    if (isRead) btn.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--footer-color');
+    else btn.style.backgroundColor = getComputedStyle(document.documentElement).getPropertyValue('--unread-color');
+    return isRead ? "read" : "not yet read";
 }
 
 function displayBook(book) { 
@@ -64,7 +77,9 @@ function displayBook(book) {
 
     // change read status and remove book buttons
     const actionBtns = document.createElement('div');
+    actionBtns.setAttribute('id', book['title']);
     actionBtns.className = 'action-btns';
+
     for(let b = 1; b <= 2; b++) {
         const button = document.createElement('button');
         button.setAttribute("type", "button");
@@ -72,11 +87,13 @@ function displayBook(book) {
 
         if (b === 1) {
             button.className = 'read-status';
-            btnContent = document.createTextNode(`${book['isRead'] ? "read" : "not yet read"}`);
+            btnContent = document.createTextNode(isRead(book['isRead'], button));
+            button.addEventListener('click', () => changeReadStatus(button.parentNode.id));
         } else if (b === 2) {
             button.className = 'remove-btn';
             btnContent = document.createElement('img');
             btnContent.setAttribute('src', 'icons/trash-icon.svg');
+            button.addEventListener('click', () => removeBook(button.parentNode.id));
         }
 
         button.appendChild(btnContent);
@@ -107,28 +124,39 @@ function displayBook(book) {
         card.appendChild(bookDiv);
     }
 
-    libraryDisplay.appendChild(card);  
+    libraryDisplay.appendChild(card); 
 }
 
-function removeBook() {
-
+function removeBook(title) {
+    const books = document.querySelectorAll('.title');
+    for (let b = 0; b < books.length; b++) {
+        if (books[b].textContent === title) {
+            if (confirm("Are you sure you want to delete this book?")) {
+                myLibrary.splice(b, 1);
+                books[b].parentNode.remove();
+            }
+            break;
+        }
+    }
 }
 
-function changeReadStatus() {
-    
+function changeReadStatus(title) {
+    const books = document.querySelectorAll('.title');
+    for (let b = 0; b < books.length; b++) {
+        if (books[b].textContent === title) {
+            myLibrary[b]['isRead'] = !(myLibrary[b]['isRead']);
+            const button = books[b].parentNode.firstChild.firstChild;
+            button.textContent = isRead(myLibrary[b]['isRead'], button);
+        }
+    }
 }
 
-myLibrary.forEach(book => displayBook(book));
+if (myLibrary.length > 0) myLibrary.forEach(book => displayBook(book));
 
 const form = document.querySelector("#form-container");
 form.addEventListener("submit", function (event) {
     event.preventDefault();
     
     addBookToLibrary();
-
-    // clear form once submitted
-    document.getElementById('title').value = '';
-    document.getElementById('author').value = '';
-    document.getElementById('datePublished').value = '';
-    document.querySelector('input[name=isRead]:checked').checked = false;
+    clearForm();
 });

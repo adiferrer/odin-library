@@ -37,6 +37,7 @@ body {
 
 #main-content {
     width: 90%;
+    margin-top: 15px;
 
     display: inherit;
     flex-direction: inherit;
@@ -55,17 +56,32 @@ body {
 
 #form-popup {
     display: none;
-    position: fixed;
+    position: absolute;
+}
+
+#form-container > div {
+    display: grid;
+}
+
+#form-container > fieldset {
+    padding: 15px;
+    border: none;
+}
+
+fieldset > div {
+    height: max-content;
+    
 }
 
 #library {
     flex: 1;
+    gap: 20px;
 }
 
 .library-book {
     width: 100%;
     height: max-content;
-    padding: 10px;
+    padding: 13px;
 
     display: flex;
     flex-direction: column;
@@ -110,21 +126,28 @@ body {
     }
 
     #main-content > div > h1 {
-        font-size: 50px;
+        font-size: 3.5em;
+    }
+
+    #form-popup {
+        top: calc(100vh - 87vh);
+        left: calc(100vw - 325px);
     }
     
     #library {
         width: 100%;
+        height: 100%;
+        overflow: auto;
 
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-auto-rows: max-content;
         justify-items: center;
-        gap: 10px;
+        row-gap: 15px;
     }
 
     .library-book {
-        width: 90%;
+        width: 91.5%;
         height: auto;
     }
 }
@@ -153,6 +176,7 @@ input:not([type='radio']) {
 }
 
 #open-book-form {
+    display: flex;
     border-radius: 50%;
     background-color: var(--book-color);
 }
@@ -162,7 +186,7 @@ input:not([type='radio']) {
 }
 
 #add-icon {
-    height: 40px;
+    height: 3.3em;
     width: auto;
     filter: invert(43%) sepia(27%) saturate(512%) hue-rotate(47deg) brightness(92%) contrast(87%);
 }
@@ -176,7 +200,8 @@ input:not([type='radio']) {
     gap: 20px;
 }
 
-input:not([type='radio']) {
+input:not([type='radio']),
+#form-container > button {
     height: max-content;
     padding: 6px;
     font-size: 15px;
@@ -228,8 +253,9 @@ input:not([type='radio']) {
 .title {
     text-transform: uppercase;
     font-weight: 500;
+    font-size: 1.1em;
 
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .author,
