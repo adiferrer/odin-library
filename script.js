@@ -2,18 +2,21 @@ datePublished.max = new Date().toLocaleDateString('en-ca');
 const libraryDisplay = document.getElementById('library');
 let myLibrary = [ // array of book objects
     {
+        imgSrc: "",
         title: 'Maze Runner',
         author: 'James Dashner',
         datePublished: 'October 6, 2009',
         isRead: true
     },
     {
+        imgSrc: "",
         title: 'Harry Potter and the Sorcerer\'s Stone',
         author: 'J.K. Rowling',
         datePublished: 'June 26, 1997',
         isRead: false
     },
     {
+        imgSrc: "",
         title: 'Eye of Minds',
         author: 'James Dashner',
         datePublished: 'October 8, 2013',
@@ -22,13 +25,13 @@ let myLibrary = [ // array of book objects
 ];
 
 function Book(title, author, datePublished, isRead) {
+    this.imgSrc = "";
     this.title = title;
     this.author = author;
 
     const date = new Date(datePublished).toDateString().split(' '); // converts date to words
     this.datePublished = `${date[1]} ${date[2]}, ${date[3]} `;
     this.isRead = isRead;
-    this.imgSrc = "";
 
     this.info = function() {
         return `${title} by ${author}, published ${datePublished}, ${isRead ? "read" : "not yet read"}`;
@@ -36,7 +39,7 @@ function Book(title, author, datePublished, isRead) {
 }
 
 function openForm() { // shows form
-    document.getElementById("form-popup").style.display = "block";
+    document.getElementById("form-popup").style.display = "flex";
     document.getElementById("open-book-form").disabled = true;
 }
   
@@ -65,36 +68,43 @@ function displayBook(book) {
     for(let b = 1; b <= 2; b++) {
         const button = document.createElement('button');
         button.setAttribute("type", "button");
-        let btnText;
+        let btnContent;
 
         if (b === 1) {
             button.className = 'read-status';
-            btnText = document.createTextNode('Read Status');
+            btnContent = document.createTextNode(`${book['isRead'] ? "read" : "not yet read"}`);
         } else if (b === 2) {
             button.className = 'remove-btn';
-            btnText = document.createTextNode('Remove book');
+            btnContent = document.createElement('img');
+            btnContent.setAttribute('src', 'icons/trash-icon.svg');
         }
 
-        button.appendChild(btnText);
+        button.appendChild(btnContent);
         actionBtns.appendChild(button);
     }
     card.appendChild(actionBtns);
      
     // displays book and its information in website
     for (const property in book) {
-        const textDiv = document.createElement('div'); 
-        let text;
+        const bookDiv = document.createElement('div'); 
+        let content;
 
-        if (property === 'title' || property === 'author' || property === 'datePublished') {
-            text = document.createTextNode(book[property]);
-        } else if (property === 'isRead') {
-            text = document.createTextNode(`${book[property] ? "read" : "not yet read"}`);
+        if (property === 'title') {
+            content = document.createTextNode(book[property]);
+        } else if (property === 'author') {
+            content = document.createTextNode('Written by ' + book[property]);
+        } else if (property === 'datePublished') {
+            content = document.createTextNode('Published on ' + book[property]);
+        } else if (property === 'imgSrc') {
+            content = document.createElement('img');
+            content.setAttribute('src', 'images/book-placeholder.jpeg');
         } else {
             continue;
         }
 
-        textDiv.appendChild(text);  
-        card.appendChild(textDiv);
+        bookDiv.appendChild(content); 
+        bookDiv.className = property;
+        card.appendChild(bookDiv);
     }
 
     libraryDisplay.appendChild(card);  
