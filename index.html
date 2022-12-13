@@ -9,7 +9,7 @@
 </head>
 <body>
     <div id="container">
-        <div id="header">
+        <header>
             <div>
                 <img src="icons/menu-icon.svg" alt="menu icon" id="menu-icon" class="header-icon"/>
                 <h2>LibCollection</h2>
@@ -21,8 +21,8 @@
                 </div>
                 <p>Jeanne Ferrer</p>
             </div>
-        </div>
-        <div id="main-content">
+        </header>
+        <main>
             <div>
                 <h1>My Library</h1>
                 <button id="open-book-form" onclick="openForm()"><img src="icons/add-icon.svg" alt="add icon" id="add-icon" class="body-icon"/></button>
@@ -33,21 +33,21 @@
 
                         <div>
                             <label for="title">Title</label>
-                            <input type="text" name="title" id="title" required/>
+                            <input type="text" name="title" id="title-input" required/>
                         </div>
                         <div>
                             <label for="author">Author</label>
-                            <input type="text" name="author" id="author" required/>
+                            <input type="text" name="author" id="author-input" required/>
                         </div>
                         <div>
                             <label for="datePublished">Date Published</label>
-                            <input type="date" name="datePublished" id="datePublished" required/>
+                            <input type="date" name="datePublished" id="datePublished-input" required/>
                         </div>
                         
                         <fieldset>
                             <legend>Have you read this book?</legend>
                             <div>
-                                <input type="radio" name="isRead" id="read" value="true" required>
+                                <input type="radio" name="isRead" id="read-input" value="true" required>
                                 <label for="read">Yes</label>
                                 <input type="radio" name="isRead" id="notRead" value="false">
                                 <label for="notRead">No</label>
@@ -60,11 +60,11 @@
                 </div>
             </div>
             <div id="library"></div>
-        </div>
-        <div id="footer">
+        </main>
+        <footer>
             Made by <a href="https://github.com/adiferrer" target="_blank">Jeanne Ferrer</a> 
             for <a href="https://www.theodinproject.com/lessons/node-path-javascript-library" target="_blank">The Odin Project</a>
-        </div>
+        </footer>
     </div>
 
     <script src="script.js"></script>

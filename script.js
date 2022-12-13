@@ -1,4 +1,4 @@
-datePublished.max = new Date().toLocaleDateString('en-ca');
+document.querySelector("#datePublished-input").max = new Date().toLocaleDateString('en-ca');
 const libraryDisplay = document.getElementById('library');
 let myLibrary = [ // array of book objects
     {
@@ -24,17 +24,22 @@ let myLibrary = [ // array of book objects
     }
 ];
 
-function Book(title, author, datePublished, isRead) {
-    this.imgSrc = "";
-    this.title = title;
-    this.author = author;
-
-    const date = new Date(datePublished).toDateString().split(' '); // converts date to words
-    this.datePublished = `${date[1]} ${date[2]}, ${date[3]} `;
-    this.isRead = (isRead === 'true');
-
-    this.info = function() {
+class Book {
+    constructor(title, author, datePublished, isRead) {
+        this.imgSrc = "";
+        this.title = title;
+        this.author = author;
+        this.isRead = (isRead === 'true');
+        this.datePublished = datePublished;
+    }
+    
+    info = function() {
         return `${title} by ${author}, published ${datePublished}, ${isRead ? "read" : "not yet read"}`;
+    }
+
+    set datePublished (datePublished) {
+        let date = new Date(datePublished).toDateString().split(' '); // converts date to words
+        return `${date[1]} ${date[2]}, ${date[3]} `;
     }
 }
 
@@ -49,9 +54,9 @@ function closeForm() { // hides form
 }
 
 function addBookToLibrary() { // adds a new book
-    const newBook = new Book(document.getElementById('title').value,
-                            document.getElementById('author').value,
-                            document.getElementById('datePublished').value,
+    const newBook = new Book(document.getElementById('title-input').value,
+                            document.getElementById('author-input').value,
+                            document.getElementById('datePublished-input').value,
                             document.querySelector('input[name="isRead"]:checked').value);
     
     myLibrary.push(newBook);
@@ -59,9 +64,9 @@ function addBookToLibrary() { // adds a new book
 }
 
 function clearForm() { // clears form
-    document.getElementById('title').value = '';
-    document.getElementById('author').value = '';
-    document.getElementById('datePublished').value = '';
+    document.getElementById('title-input').value = '';
+    document.getElementById('author-input').value = '';
+    document.getElementById('datePublished-input').value = '';
     document.querySelector('input[name=isRead]:checked').checked = false;
 }
 
